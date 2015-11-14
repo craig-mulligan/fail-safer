@@ -1,12 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hello World!</title>
+    <title>fail safer</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://cdn.pubnub.com/pubnub-3.7.15.min.js"></script>
   </head>
+  <style>
+  button {
+    display: block;
+    color: blue;
+    margin: 20px;
+  }
+  </style>
   <body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <h1>Fail Safer</h1>
+    <button>pre_start</button>
+    <button>start</button>
+    <button>start_build</button>
+    <button>start_download</button>
+    <button>start_applause</button>
+    <button>start_tts</button>
+    <button>ready</button>
+    <script>
+    pubnub = PUBNUB({
+      subscribe_key: 'sub-c-3bd403c8-0ec0-11e5-a5c2-0619f8945a4f',
+      publish_key: 'pub-c-50c523d1-e9c5-4e13-b7f7-1383a3ca4645'
+    })
+    $( "button" ).click(function() {
+      var msg = $(this).text();
+      pubnub.publish({
+           channel : "events",
+           message : msg,
+           callback: function(m){ console.log(m) }
+      });
+    });
+
+    </script>
   </body>
+
 </html>
